@@ -1,0 +1,9 @@
+{{range $match := .}}
+<tr class="hover:bg-indigo-200 hover:cursor-pointer" hx-get="/match/{{$match.Hash}}" hx-target="closest body" hx-trigger="click" hx-push-url="true">
+	<td>{{$match.Meta.ScouterName}}</td>
+	<td>{{$match.Meta.MatchNumber}}</td>
+	<td>{{$match.Meta.TeamNumber}}</td>
+	<td>{{$match.Meta.MatchType}}</td>
+	<td><button hx-post="/delete/{{$match.Hash}}" hx-trigger="click consume" hx-target="closest tr" hx-push-url="false">Delete</button></td>
+</tr>
+{{end}}

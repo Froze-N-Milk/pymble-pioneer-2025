@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		<title>{{ .Title }}</title>
+		<script src="/lib/common.js"></script>
+		<script src="/lib/tailwind.min.js"></script>
+		<script src="/lib/tailwind-forms.min.js"></script>
+		<script src="/lib/htmx.js"></script>
+		<script src="/lib/idiomorph-ext.js"></script>
+	</head>
+
+	<body hx-ext="morph" hx-target="this">
+		{{template "edit-match-form.html.tmpl" .}}
+	</body>
+</html>
+

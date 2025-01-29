@@ -1,0 +1,269 @@
+{{define "option"}}<option {{if .Selected}}selected{{end}}>{{.Value}}</option>{{end}}
+{{define "radio"}}
+	<input type="radio"
+		name="{{.Name}}"
+		id="{{.Name}}-{{.Value}}"
+		value="{{.Value}}"
+		{{if .Checked}}checked{{end}}
+		autocomplete="off" {{/* this does smth for firefox */}}
+		class=""
+		hx-include="#match-form"
+		hx-post="/match/{{.Post}}"/>
+	<label for="{{.Name}}-{{.Value}}">{{.Value}}</label>
+{{end}}
+{{define "hidden radio"}}
+	<input type="radio"
+		name="{{.Name}}"
+		id="{{.Name}}-{{.Value}}"
+		value="{{.Value}}"
+		{{if .Checked}}checked{{end}}
+		autocomplete="off" {{/* this does smth for firefox */}}
+		class="hidden"
+		hx-include="#match-form"
+		hx-post="/match/{{.Post}}"/>
+{{end}}
+<heading>{{.Title}}</heading>
+<br/>
+<a class="underline" href="/">Home</a>
+<br/>
+<br/>
+<form id="match-form" hx-post="/match/{{.Data.Hash}}" autocomplete="off" {{/* this does smth for firefox */}}>
+	<heading>Fouls ('sticky'):</heading>
+	<br/>
+	<label for="minorFoul">Minor Fouls:</label>
+	<input type="text"
+		id="minorFoul"
+		name="minorFoul"
+		value="{{.Data.Sticky.Fouls.Minor}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="majorFoul">Major Fouls:</label>
+	<input type="text"
+		id="majorFoul"
+		name="majorFoul"
+		value="{{.Data.Sticky.Fouls.Major}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="yellowCard">Yellow Cards:</label>
+	<input type="text"
+		id="yellowCard"
+		name="yellowCard"
+		value="{{.Data.Sticky.Fouls.YellowCard}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="redCard">Red Cards:</label>
+	<input type="text"
+		id="redCard"
+		name="redCard"
+		value="{{.Data.Sticky.Fouls.RedCard}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<br/>
+	<br/>
+	<label for="coopertition">Coopertition:</label>
+	<input type="checkbox"
+		id="coopertition"
+		name="coopertition"
+		value="true"
+		{{if .Data.Sticky.Coopertition}}checked{{end}}
+		hx-include="#match-form"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="comment">Comment:</label>
+	<input type="text"
+		id="comment"
+		name="comment"
+		value="{{.Data.Sticky.Comment}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<heading>Prematch:</heading>
+	<div>Starting Position:</div>
+	{{template "hidden radio" .Data.StartingPositionRadio 0}}
+	{{template "radio" .Data.StartingPositionRadio 1}}
+	<br/>
+	{{template "radio" .Data.StartingPositionRadio 2}}
+	<br/>
+	{{template "radio" .Data.StartingPositionRadio 3}}
+	<br/>
+	<div>Driver Station:</div>
+	{{template "hidden radio" .Data.DriverStationRadio 0}}
+	{{template "radio" .Data.DriverStationRadio 1}}
+	<br/>
+	{{template "radio" .Data.DriverStationRadio 2}}
+	<br/>
+	{{template "radio" .Data.DriverStationRadio 3}}
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<heading>Auto:</heading>
+	<br/>
+	<label for="autoL4">L4:</label>
+	<input type="text"
+		id="autoL4"
+		name="autoL4"
+		value="{{.Data.Auto.L4}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="autoL3">L3:</label>
+	<input type="text"
+		id="autoL3"
+		name="autoL3"
+		value="{{.Data.Auto.L3}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="autoL2">L2:</label>
+	<input type="text"
+		id="autoL2"
+		name="autoL2"
+		value="{{.Data.Auto.L2}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="autoL1">L1:</label>
+	<input type="text"
+		id="autoL1"
+		name="autoL1"
+		value="{{.Data.Auto.L1}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="autoProcessor">Processor:</label>
+	<input type="text"
+		id="autoProcessor"
+		name="autoProcessor"
+		value="{{.Data.Auto.Processor}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="autoRemoved">Algae Removed:</label>
+	<input type="text"
+		id="autoRemoved"
+		name="autoRemoved"
+		value="{{.Data.Auto.Removed}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="autoRobotNet">Robot Net:</label>
+	<input type="text"
+		id="autoRobotNet"
+		name="autoRobotNet"
+		value="{{.Data.Auto.RobotNet}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<heading>Teleop:</heading>
+	<br/>
+	<label for="teleopL4">L4:</label>
+	<input type="text"
+		id="teleopL4"
+		name="teleopL4"
+		value="{{.Data.Teleop.L4}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopL3">L3:</label>
+	<input type="text"
+		id="teleopL3"
+		name="teleopL3"
+		value="{{.Data.Teleop.L3}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopL2">L2:</label>
+	<input type="text"
+		id="teleopL2"
+		name="teleopL2"
+		value="{{.Data.Teleop.L2}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopL1">L1:</label>
+	<input type="text"
+		id="teleopL1"
+		name="teleopL1"
+		value="{{.Data.Teleop.L1}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopProcessor">Processor:</label>
+	<input type="text"
+		id="teleopProcessor"
+		name="teleopProcessor"
+		value="{{.Data.Teleop.Processor}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopRemoved">Algae Removed:</label>
+	<input type="text"
+		id="teleopRemoved"
+		name="teleopRemoved"
+		value="{{.Data.Teleop.Removed}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopRobotNet">Robot Net:</label>
+	<input type="text"
+		id="teleopRobotNet"
+		name="teleopRobotNet"
+		value="{{.Data.Teleop.RobotNet}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<label for="teleopHumanNet">Human Net:</label>
+	<input type="text"
+		id="teleopHumanNet"
+		name="teleopHumanNet"
+		value="{{.Data.Teleop.HumanNet}}"
+		hx-include="#match-form"
+		hx-trigger="keyup changed delay:50ms"
+		hx-post="/match/{{.Data.Hash}}"/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<heading>Endgame:</heading>
+	<br/>
+	{{template "hidden radio" .Data.BargeRadio ""}}
+	{{template "radio" .Data.BargeRadio "None"}}
+	<br/>
+	{{template "radio" .Data.BargeRadio "Park"}}
+	<br/>
+	{{template "radio" .Data.BargeRadio "Shallow"}}
+	<br/>
+	{{template "radio" .Data.BargeRadio "Deep"}}
+	<br/>
+</form>

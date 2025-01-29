@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		<title>{{ .Title }}</title>
+		<script src="/lib/common.js"></script>
+		<script src="/lib/tailwind.min.js"></script>
+		<script src="/lib/tailwind-forms.min.js"></script>
+		<script src="/lib/htmx.js"></script>
+		<script src="/lib/idiomorph-ext.js"></script>
+	</head>
+
+	<body hx-ext="morph">
+		<form id="new-match-form" hx-validate="false"></form>
+		<table>
+			<thead>
+				<tr>
+					<th scope="col">Scouter Name</th>
+					<th scope="col">Match Number</th>
+					<th scope="col">Team Number</th>
+					<th scope="col">Match Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{ template "new-match-form.html.tmpl" .Data.Form }}
+				<tr height="20em"></tr>
+				{{ template "matches.html.tmpl" .Data.Matches }}
+			</tbody>
+		</table>
+	</body>
+</html>
+

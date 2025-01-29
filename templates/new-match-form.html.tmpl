@@ -1,0 +1,59 @@
+<tbody id="form-body">
+<tr hx-target="#form-body"
+	hx-swap="morph:outerHTML">
+
+	<td scope="col" >
+		<input type="text"
+			id="scouterName"
+			name="scouterName"
+			value="{{.Meta.ScouterName}}"
+			form="new-match-form"
+			hx-include="#new-match-form"
+			hx-trigger="keyup changed delay:50ms"
+			hx-post="/matches/validate-new"/>
+	</td>
+	<td scope="col">
+		<input type="text"
+			id="matchNumber"
+			name="matchNumber"
+			value="{{.Meta.MatchNumber}}"
+			form="new-match-form"
+			hx-include="#new-match-form"
+			hx-trigger="keyup changed delay:50ms"
+			hx-post="/matches/validate-new"/>
+	</td>
+	<td scope="col">
+		<input type="text"
+			id="teamNumber"
+			name="teamNumber"
+			value="{{.Meta.TeamNumber}}"
+			form="new-match-form"
+			hx-include="#new-match-form"
+			hx-trigger="keyup changed delay:50ms"
+			hx-post="/matches/validate-new"/>
+	</td>
+	<td scope="col">
+		{{define "option"}}<option {{if .Selected}}selected{{end}}>{{.Value}}</option>{{end}}
+		<select id="matchType"
+			name="matchType"
+			form="new-match-form"
+			hx-include="#new-match-form"
+			hx-trigger="change"
+			hx-post="/matches/validate-new">
+			{{template "option" .IsSelected "Practice"}}
+			{{template "option" .IsSelected "Qualification"}}
+			{{template "option" .IsSelected "Playoff"}}
+		</select>
+	</td>
+	<td colspan="2">
+		<button
+			form="new-match-form"
+			type="submit"
+			hx-include="#new-match-form"
+			hx-post="/matches/new">
+			Create
+		</button>
+	</td>
+</tr>
+<tr><td colspan="5">{{if .Error}}{{.Error}}{{end}}</td></tr>
+</tbody>
