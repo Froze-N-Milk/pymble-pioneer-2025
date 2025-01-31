@@ -56,13 +56,14 @@ func (match Match) DriverStationRadio(position Position) Radio[Position] {
 }
 
 type Auto struct {
-	L4        uint64 `json:"l4"`
-	L3        uint64 `json:"l3"`
-	L2        uint64 `json:"l2"`
-	L1        uint64 `json:"l1"`
-	Processor uint64 `json:"processor"`
-	Removed   uint64 `json:"removed"`
-	RobotNet  uint64 `json:"robotNet"`
+	CrossedLine bool   `json:"crossedLine"`
+	L4          uint64 `json:"l4"`
+	L3          uint64 `json:"l3"`
+	L2          uint64 `json:"l2"`
+	L1          uint64 `json:"l1"`
+	Processor   uint64 `json:"processor"`
+	Removed     uint64 `json:"removed"`
+	RobotNet    uint64 `json:"robotNet"`
 }
 
 type Teleop struct {

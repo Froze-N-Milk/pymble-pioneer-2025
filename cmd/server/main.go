@@ -20,7 +20,7 @@ var drivers = template.Must(template.ParseFS(root.Templates, "**/*.tmpl"))
 
 func main() {
 	model.Init()
-	re, err := regexp.Compile("[^0-9]")
+	re, err := regexp.Compile(`-\?[^0-9]`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -270,6 +270,9 @@ func updateMatch(w http.ResponseWriter, r *http.Request) {
 	driverStation, _ := validatePostFormFieldNumber("driverStation", r)
 	if driverStation > 3 { driverStation = 0 }
 	match.Prematch.DriverStation = model.Position(driverStation)
+
+	crossedLine := r.PostFormValue("crossedLine")
+	match.Auto.CrossedLine = crossedLine != ""
 
 	autoL4, _ := validatePostFormFieldNumber("autoL4", r)
 	match.Auto.L4 = autoL4

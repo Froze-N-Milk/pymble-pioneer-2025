@@ -1,18 +1,17 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en-US" class="snap-y snap-mandatory scroll-smooth overflow-y-scroll overflow-x-hidden">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 
 		<title>{{ .Title }}</title>
-		<script src="/lib/common.js"></script>
 		<script src="/lib/tailwind.min.js"></script>
 		<script src="/lib/tailwind-forms.min.js"></script>
 		<script src="/lib/htmx.js"></script>
 		<script src="/lib/idiomorph-ext.js"></script>
 	</head>
 
-	<body hx-ext="morph" hx-target="this">
+	<body hx-ext="morph" hx-target="this" class="">
 		{{template "edit-match-form.html.tmpl" .}}
 	</body>
 </html>

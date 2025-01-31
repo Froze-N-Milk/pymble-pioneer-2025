@@ -22,248 +22,492 @@
 		hx-include="#match-form"
 		hx-post="/match/{{.Post}}"/>
 {{end}}
-<heading>{{.Title}}</heading>
-<br/>
-<a class="underline" href="/">Home</a>
-<br/>
-<br/>
+{{define "increment"}}
+<button class="p-1 leading-[0] self-stretch bg-white w-7 align-middle text-center"
+	type="button"
+	onclick="
+		const f = () => {
+			const el = document.getElementById('{{.}}');
+			const value = parseInt(el.value);
+			if (isNaN(value)) {
+				location.reload();
+				f();
+			}
+			else {
+				el.value = value + 1;
+				el.dispatchEvent(new Event('keyup'));
+			}
+		}
+		f();
+	"
+	>+</button>
+{{end}}
+{{define "decrement"}}
+<button class="p-1 leading-[0] self-stretch bg-white w-7 align-middle text-center"
+	type="button"
+	onclick="
+		const f = () => {
+			const el = document.getElementById('{{.}}');
+			const value = parseInt(el.value);
+			if (isNaN(value)) {
+				location.reload();
+				f();
+			}
+			else {
+				el.value = value - 1;
+				el.dispatchEvent(new Event('keyup'));
+			}
+		}
+		f();
+	"
+	>-</button>
+{{end}}
+<div class="fixed p-3 z-10 w-96">
+	<div class="bg-indigo-200 p-1 m-1">
+		<heading>{{.Title}}</heading>
+		<br/>
+		<a class="underline" href="/">Home</a>
+		<br/>
+	</div>
+</div>
 <form id="match-form" hx-post="/match/{{.Data.Hash}}" autocomplete="off" {{/* this does smth for firefox */}}>
-	<heading>Fouls ('sticky'):</heading>
-	<br/>
-	<label for="minorFoul">Minor Fouls:</label>
-	<input type="text"
-		id="minorFoul"
-		name="minorFoul"
-		value="{{.Data.Sticky.Fouls.Minor}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="majorFoul">Major Fouls:</label>
-	<input type="text"
-		id="majorFoul"
-		name="majorFoul"
-		value="{{.Data.Sticky.Fouls.Major}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="yellowCard">Yellow Cards:</label>
-	<input type="text"
-		id="yellowCard"
-		name="yellowCard"
-		value="{{.Data.Sticky.Fouls.YellowCard}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="redCard">Red Cards:</label>
-	<input type="text"
-		id="redCard"
-		name="redCard"
-		value="{{.Data.Sticky.Fouls.RedCard}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<br/>
-	<br/>
-	<label for="coopertition">Coopertition:</label>
-	<input type="checkbox"
-		id="coopertition"
-		name="coopertition"
-		value="true"
-		{{if .Data.Sticky.Coopertition}}checked{{end}}
-		hx-include="#match-form"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="comment">Comment:</label>
-	<input type="text"
-		id="comment"
-		name="comment"
-		value="{{.Data.Sticky.Comment}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<heading>Prematch:</heading>
-	<div>Starting Position:</div>
-	{{template "hidden radio" .Data.StartingPositionRadio 0}}
-	{{template "radio" .Data.StartingPositionRadio 1}}
-	<br/>
-	{{template "radio" .Data.StartingPositionRadio 2}}
-	<br/>
-	{{template "radio" .Data.StartingPositionRadio 3}}
-	<br/>
-	<div>Driver Station:</div>
-	{{template "hidden radio" .Data.DriverStationRadio 0}}
-	{{template "radio" .Data.DriverStationRadio 1}}
-	<br/>
-	{{template "radio" .Data.DriverStationRadio 2}}
-	<br/>
-	{{template "radio" .Data.DriverStationRadio 3}}
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<heading>Auto:</heading>
-	<br/>
-	<label for="autoL4">L4:</label>
-	<input type="text"
-		id="autoL4"
-		name="autoL4"
-		value="{{.Data.Auto.L4}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="autoL3">L3:</label>
-	<input type="text"
-		id="autoL3"
-		name="autoL3"
-		value="{{.Data.Auto.L3}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="autoL2">L2:</label>
-	<input type="text"
-		id="autoL2"
-		name="autoL2"
-		value="{{.Data.Auto.L2}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="autoL1">L1:</label>
-	<input type="text"
-		id="autoL1"
-		name="autoL1"
-		value="{{.Data.Auto.L1}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="autoProcessor">Processor:</label>
-	<input type="text"
-		id="autoProcessor"
-		name="autoProcessor"
-		value="{{.Data.Auto.Processor}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="autoRemoved">Algae Removed:</label>
-	<input type="text"
-		id="autoRemoved"
-		name="autoRemoved"
-		value="{{.Data.Auto.Removed}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="autoRobotNet">Robot Net:</label>
-	<input type="text"
-		id="autoRobotNet"
-		name="autoRobotNet"
-		value="{{.Data.Auto.RobotNet}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<heading>Teleop:</heading>
-	<br/>
-	<label for="teleopL4">L4:</label>
-	<input type="text"
-		id="teleopL4"
-		name="teleopL4"
-		value="{{.Data.Teleop.L4}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopL3">L3:</label>
-	<input type="text"
-		id="teleopL3"
-		name="teleopL3"
-		value="{{.Data.Teleop.L3}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopL2">L2:</label>
-	<input type="text"
-		id="teleopL2"
-		name="teleopL2"
-		value="{{.Data.Teleop.L2}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopL1">L1:</label>
-	<input type="text"
-		id="teleopL1"
-		name="teleopL1"
-		value="{{.Data.Teleop.L1}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopProcessor">Processor:</label>
-	<input type="text"
-		id="teleopProcessor"
-		name="teleopProcessor"
-		value="{{.Data.Teleop.Processor}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopRemoved">Algae Removed:</label>
-	<input type="text"
-		id="teleopRemoved"
-		name="teleopRemoved"
-		value="{{.Data.Teleop.Removed}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopRobotNet">Robot Net:</label>
-	<input type="text"
-		id="teleopRobotNet"
-		name="teleopRobotNet"
-		value="{{.Data.Teleop.RobotNet}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<label for="teleopHumanNet">Human Net:</label>
-	<input type="text"
-		id="teleopHumanNet"
-		name="teleopHumanNet"
-		value="{{.Data.Teleop.HumanNet}}"
-		hx-include="#match-form"
-		hx-trigger="keyup changed delay:50ms"
-		hx-post="/match/{{.Data.Hash}}"/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
-	<heading>Endgame:</heading>
-	<br/>
-	{{template "hidden radio" .Data.BargeRadio ""}}
-	{{template "radio" .Data.BargeRadio "None"}}
-	<br/>
-	{{template "radio" .Data.BargeRadio "Park"}}
-	<br/>
-	{{template "radio" .Data.BargeRadio "Shallow"}}
-	<br/>
-	{{template "radio" .Data.BargeRadio "Deep"}}
-	<br/>
+	<div class="place-content-center fixed w-96 h-screen p-3">
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="minorFoul">Minor Fouls:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "minorFoul"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="minorFoul"
+				name="minorFoul"
+				value="{{.Data.Sticky.Fouls.Minor}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "minorFoul"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="majorFoul">Major Fouls:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "majorFoul"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="majorFoul"
+				name="majorFoul"
+				value="{{.Data.Sticky.Fouls.Major}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "majorFoul"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="yellowCard">Yellow Cards:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "yellowCard"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="yellowCard"
+				name="yellowCard"
+				value="{{.Data.Sticky.Fouls.YellowCard}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "yellowCard"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="redCard">Red Cards:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "redCard"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="redCard"
+				name="redCard"
+				value="{{.Data.Sticky.Fouls.RedCard}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "redCard"}}
+			<br/>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1">
+			<label for="coopertition">Coopertition:</label>
+			<input type="checkbox"
+				id="coopertition"
+				name="coopertition"
+				value="true"
+				{{if .Data.Sticky.Coopertition}}checked{{end}}
+				hx-include="#match-form"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1">
+			<label for="comment">Comment:</label>
+			<br/>
+			<textarea id="comment"
+				name="comment"
+				class="resize-none w-full"
+				rows="7"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}">
+				{{- .Data.Sticky.Comment -}}
+			</textarea>
+			<br/>
+		</div>
+	</div>
+	<div class="place-content-center snap-start h-screen relative left-96 p-3 w-96">
+		<div class="bg-indigo-200 p-1 m-1">
+			<heading>Prematch:</heading>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1">
+			<div>Starting Position:</div>
+			{{template "hidden radio" .Data.StartingPositionRadio 0}}
+			{{template "radio" .Data.StartingPositionRadio 1}}
+			<br/>
+			{{template "radio" .Data.StartingPositionRadio 2}}
+			<br/>
+			{{template "radio" .Data.StartingPositionRadio 3}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1">
+			<div>Driver Station:</div>
+			{{template "hidden radio" .Data.DriverStationRadio 0}}
+			{{template "radio" .Data.DriverStationRadio 1}}
+			<br/>
+			{{template "radio" .Data.DriverStationRadio 2}}
+			<br/>
+			{{template "radio" .Data.DriverStationRadio 3}}
+			<br/>
+		</div>
+	</div>
+	<div class="place-content-center snap-start h-screen relative left-96 p-3 w-96">
+		<div class="bg-indigo-200 p-1 m-1">
+			<heading>Auto:</heading>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1">
+			<label for="crossedLine">Crossed Starting Line:</label>
+			<input type="checkbox"
+				id="crossedLine"
+				name="crossedLine"
+				value="true"
+				{{if .Data.Auto.CrossedLine}}checked{{end}}
+				hx-include="#match-form"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<br/>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoL4">L4:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoL4"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoL4"
+				name="autoL4"
+				value="{{.Data.Auto.L4}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoL4"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoL3">L3:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoL3"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoL3"
+				name="autoL3"
+				value="{{.Data.Auto.L3}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoL3"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoL2">L2:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoL2"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoL2"
+				name="autoL2"
+				value="{{.Data.Auto.L2}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoL2"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoL1">L1:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoL1"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoL1"
+				name="autoL1"
+				value="{{.Data.Auto.L1}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoL1"}}
+			<br/>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoProcessor">Processor:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoProcessor"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoProcessor"
+				name="autoProcessor"
+				value="{{.Data.Auto.Processor}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoProcessor"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoRemoved">Algae Removed:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoRemoved"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoRemoved"
+				name="autoRemoved"
+				value="{{.Data.Auto.Removed}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoRemoved"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="autoRobotNet">Robot Net:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "autoRobotNet"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="autoRobotNet"
+				name="autoRobotNet"
+				value="{{.Data.Auto.RobotNet}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "autoRobotNet"}}
+			<br/>
+		</div>
+	</div>
+	<div class="place-content-center snap-start h-screen relative left-96 p-3 w-96">
+		<div class="bg-indigo-200 p-1 m-1">
+			<heading>Teleop:</heading>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopL4">L4:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopL4"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopL4"
+				name="teleopL4"
+				value="{{.Data.Teleop.L4}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopL4"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopL3">L3:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopL3"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopL3"
+				name="teleopL3"
+				value="{{.Data.Teleop.L3}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopL3"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopL2">L2:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopL2"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopL2"
+				name="teleopL2"
+				value="{{.Data.Teleop.L2}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopL2"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopL1">L1:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopL1"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopL1"
+				name="teleopL1"
+				value="{{.Data.Teleop.L1}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopL1"}}
+			<br/>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopProcessor">Processor:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopProcessor"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopProcessor"
+				name="teleopProcessor"
+				value="{{.Data.Teleop.Processor}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopProcessor"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopRemoved">Algae Removed:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopRemoved"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopRemoved"
+				name="teleopRemoved"
+				value="{{.Data.Teleop.Removed}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopRemoved"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopRobotNet">Robot Net:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopRobotNet"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopRobotNet"
+				name="teleopRobotNet"
+				value="{{.Data.Teleop.RobotNet}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopRobotNet"}}
+			<br/>
+		</div>
+		<div class="bg-indigo-200 p-1 m-1 flex items-center">
+			<label for="teleopHumanNet">Human Net:</label>
+			<div class="shrink grow"></div>
+			<div class="w-1"></div>
+			{{template "decrement" "teleopHumanNet"}}
+			<div class="w-1"></div>
+			<input type="text"
+				class="p-1 h-full w-1/4 leading-[0] shrink align-middle text-center"
+				id="teleopHumanNet"
+				name="teleopHumanNet"
+				value="{{.Data.Teleop.HumanNet}}"
+				hx-include="#match-form"
+				hx-trigger="keyup changed delay:50ms"
+				hx-post="/match/{{.Data.Hash}}"/>
+			<div class="w-1"></div>
+			{{template "increment" "teleopHumanNet"}}
+			<br/>
+		</div>
+	</div>
+	<div class="place-content-center snap-start h-screen relative left-96 p-3 w-96">
+		<div class="bg-indigo-200 p-1 m-1">
+			<heading>Endgame:</heading>
+		</div>
+		<br/>
+		<div class="bg-indigo-200 p-1 m-1">
+			{{template "hidden radio" .Data.BargeRadio ""}}
+			{{template "radio" .Data.BargeRadio "None"}}
+			<br/>
+			{{template "radio" .Data.BargeRadio "Park"}}
+			<br/>
+			{{template "radio" .Data.BargeRadio "Shallow"}}
+			<br/>
+			{{template "radio" .Data.BargeRadio "Deep"}}
+			<br/>
+		</div>
+	</div>
 </form>
