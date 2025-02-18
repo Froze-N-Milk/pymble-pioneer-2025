@@ -183,7 +183,7 @@ func newMatch(w http.ResponseWriter, r *http.Request) {
 	if form.Error != "" {
 		drivers.ExecuteTemplate(w, "new-match-form.html.tmpl", form)
 	} else {
-		file, err := os.Create(filepath.Join(model.Dir, fmt.Sprintf("%x", hash)))
+		file, err := os.Create(filepath.Join(model.Dir, fmt.Sprintf("%x.json", hash)))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -356,7 +356,7 @@ func updateMatch(w http.ResponseWriter, r *http.Request) {
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
-	err := os.Remove(filepath.Join(model.Dir, fmt.Sprintf("%x.json", r.PathValue("hash"))))
+	err := os.Remove(filepath.Join(model.Dir, fmt.Sprintf("%s.json", r.PathValue("hash"))))
 	if err != nil {
 		w.WriteHeader(500)
 		w.Write([]byte(err.Error()))
