@@ -122,7 +122,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		}
 
 		hash := match.Meta.Hash()
-		filename := fmt.Sprintf("%x", hash)
+		filename := fmt.Sprintf("%x.json", hash)
 		if d.Name() != filename {
 			if err = os.Rename(path, filepath.Join(filepath.Dir(path), filename)); err != nil {
 				return err
@@ -169,7 +169,7 @@ func validateNewMatch(r *http.Request) (model.MatchForm, []byte) {
 		MatchType:   matchType,
 	}
 	hash := form.Meta.Hash()
-	if _, err := os.Stat(filepath.Join(model.Dir, fmt.Sprintf("%x", hash))); err == nil {
+	if _, err := os.Stat(filepath.Join(model.Dir, fmt.Sprintf("%x.json", hash))); err == nil {
 		form.Error += "Record already exists\n"
 	} else if !errors.Is(err, fs.ErrNotExist) {
 		log.Fatal(err)
@@ -204,13 +204,14 @@ func newMatch(w http.ResponseWriter, r *http.Request) {
 
 func match(w http.ResponseWriter, r *http.Request) {
 	hash := r.PathValue("hash")
-	log.Printf("requested: %s", hash)
-	filename, err := filepath.Abs(filepath.Join(model.Dir, hash))
+	log.Printf("requested: %s.json", hash)
+	filename, err := filepath.Abs(filepath.Join(model.Dir, fmt.Sprintf("%s.json", hash)))
 	if err != nil {
 		log.Fatal(err)
 	}
 	file, err := os.Open(filename)
 	if errors.Is(err, os.ErrNotExist) {
+		log.Printf("didn't find match file: %s", filename)
 		http.NotFound(w, r)
 		return
 	} else if err != nil {
@@ -252,13 +253,14 @@ func validateNumber(fieldName string, str string) (uint64, error) {
 
 func updateMatch(w http.ResponseWriter, r *http.Request) {
 	hash := r.PathValue("hash")
-	log.Printf("edited: %s", hash)
-	filename, err := filepath.Abs(filepath.Join(model.Dir, hash))
+	log.Printf("edited: %s.json", hash)
+	filename, err := filepath.Abs(filepath.Join(model.Dir, fmt.Sprintf("%s.json", hash)))
 	if err != nil {
 		log.Fatal(err)
 	}
 	file, err := os.Open(filename)
 	if errors.Is(err, os.ErrNotExist) {
+		log.Printf("didn't find match file: %s", filename)
 		http.NotFound(w, r)
 		return
 	} else if err != nil {
@@ -354,7 +356,7 @@ func updateMatch(w http.ResponseWriter, r *http.Request) {
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
-	err := os.Remove(filepath.Join(model.Dir, r.PathValue("hash")))
+	err := os.Remove(filepath.Join(model.Dir, fmt.Sprintf("%x.json", r.PathValue("hash"))))
 	if err != nil {
 		w.WriteHeader(500)
 		w.Write([]byte(err.Error()))

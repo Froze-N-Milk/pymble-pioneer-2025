@@ -22,7 +22,7 @@ func Init() {
 	}
 
 	Dir = filepath.Join(home, "pymble-pioneer")
-	if err = os.Mkdir(Dir, os.ModePerm); !errors.Is(err, fs.ErrExist) {
+	if err = os.Mkdir(Dir, os.ModePerm); err != nil && !errors.Is(err, fs.ErrExist) {
 		log.Fatal(err)
 	}
 
@@ -54,7 +54,7 @@ func CleanFS() {
 		}
 
 		hash := match.Meta.Hash()
-		filename := fmt.Sprintf("%x", hash)
+		filename := fmt.Sprintf("%x.json", hash)
 		if d.Name() != filename {
 			os.Rename(path, filepath.Join(filepath.Dir(path), filename))
 		}
